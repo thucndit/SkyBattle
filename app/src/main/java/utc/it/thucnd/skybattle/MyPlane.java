@@ -69,7 +69,8 @@ public class MyPlane extends GameObject {
     public int getScore() {
         return score;
     }
-    public void addScore(int s){
+
+    public void addScore(int s) {
         score += s;
     }
 
@@ -78,9 +79,10 @@ public class MyPlane extends GameObject {
         y = GamePanel.HEIGHT - 200;
         score = 0;
     }
+
     @Override
     public Rect getRectangle() {
         //giảm khoảng cách để thấy được va chạm
-        return new Rect(x - 15, y - 15, x + width - 15, y + height-15);
+        return new Rect(x - 15, y - 15, x + width - 15, y + height - 15);
     }
 }
