@@ -81,19 +81,24 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         wait = 50;
         int randmap = rand.nextInt(5);
         sound = new SoundPlayer(gameContext);
-        // phat am thanh nen
-        bgmusic = MediaPlayer.create(gameContext, R.raw.newbattle);
-        bgmusic.setLooping(true);
-        bgmusic.start();
+
         //tính tỷ lệ màn hình với ảnh nguồn
         scaleX = getWidth() / (WIDTH * 1.f);
         scaleY = getHeight() / (HEIGHT * 1.f);
 
         //khởi tạo các đối tượng trong game
-        if (randmap < 3)
+        if (randmap < 3) {
             background = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.game_map));
-        else
+            bgmusic = MediaPlayer.create(gameContext, R.raw.newbattle);
+        }
+        else {
             background = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.game_map2));
+            bgmusic = MediaPlayer.create(gameContext, R.raw.finalbattle);
+        }
+        // phat am thanh nen
+
+        bgmusic.setLooping(true);
+        bgmusic.start();
         myplane = new MyPlane(BitmapFactory.decodeResource(getResources(), R.drawable.myplane), 76, 70, 4);
         combustor = new Combustor(BitmapFactory.decodeResource(getResources(), R.drawable.combustor), 23, 40, 4);
         missileStartTime = smokeStartTime = bulletStartTime =
@@ -156,9 +161,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             if (elapsed > 200) {
                 bullet.add(new Bullet(BitmapFactory.decodeResource(getResources(), R.drawable.bullet),
                         myplane.getX(), myplane.getY(), 25, 36, 15, 1));
-                //sound.playGunSound();
                 //reset timer
                 bulletStartTime = System.nanoTime();
+                //sound.playGunSound();
             }
             //cập nhật mỗi bullet và kiểm tra va trạm
             for (int i = 0; i < bullet.size(); i++) {

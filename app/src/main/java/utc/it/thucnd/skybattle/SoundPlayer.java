@@ -10,7 +10,7 @@ import android.os.Build;
 public class SoundPlayer {
 
     private AudioAttributes audioAttributes;
-    final int SOUND_POOL_MAX = 5;
+    final int SOUND_POOL_MAX = 3;
 
     private static SoundPool soundPool;
     private static int hitSound;
@@ -38,7 +38,7 @@ public class SoundPlayer {
         }
 
         hitSound = soundPool.load(context, R.raw.hit, 1);
-        overSound = soundPool.load(context, R.raw.destroy, 1);
+        overSound = soundPool.load(context, R.raw.over, 1);
         gunSound = soundPool.load(context, R.raw.gun, 1);
 
     }
