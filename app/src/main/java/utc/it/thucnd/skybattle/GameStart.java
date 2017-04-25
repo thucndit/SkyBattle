@@ -29,8 +29,8 @@ public class GameStart extends Activity {
         float scaleX = size.x / 512;
         float scaleY = size.y / 768;
         btnStart = (Button) findViewById(R.id.btn_start);
-        btnStart.setWidth((int) (280*scaleX));
-        btnStart.setHeight((int) (100*scaleY));
+        btnStart.setWidth((int) (300*scaleX));
+        btnStart.setHeight((int) (120*scaleY));
     }
     public void GameStart (View v){
         setContentView(new GamePanel(this));
