@@ -49,12 +49,11 @@ public class SoundPlayer {
         soundPool.play(hitSound, 1.0f, 1.0f, 1, 0, 1.0f);
     }
     public void playGunSound() {
-
         // play(int soundID, float leftVolume, float rightVolume, int priority, int loop, float rate)
-        soundPool.play(gunSound, 1.0f, 1.0f, 1, 0, 1.0f);
+        soundPool.play(gunSound, 0.3f, 0.3f, 1, 0, 1.0f);
     }
 
     public void playOverSound() {
-        soundPool.play(overSound, 1.0f, 1.0f, 1, 0, 1.0f);
+        soundPool.play(overSound, 0.8f, 0.8f, 1, 0, 1.0f);
     }
 }

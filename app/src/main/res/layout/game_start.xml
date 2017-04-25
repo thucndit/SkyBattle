@@ -31,23 +31,7 @@
                 android:textStyle="normal" />
         </TableRow>
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
 
-            <ImageView
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:src="@drawable/red" />
-
-            <TextView
-                android:layout_marginLeft="20dp"
-                android:text="3 Score"
-                android:textColor="#fff"
-                android:textSize="30sp"
-                android:textStyle="normal" />
-        </TableRow>
 
         <TableRow
             android:layout_width="wrap_content"
@@ -67,23 +51,7 @@
                 android:textStyle="normal" />
         </TableRow>
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
 
-            <ImageView
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:src="@drawable/white" />
-
-            <TextView
-                android:layout_marginLeft="20dp"
-                android:text="3 Score"
-                android:textColor="#fff"
-                android:textSize="30sp"
-                android:textStyle="normal" />
-        </TableRow>
     </TableLayout>
 
     <Button
@@ -91,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="80dp"
         android:background="@drawable/btstart"
         android:onClick="GameStart" />
 
