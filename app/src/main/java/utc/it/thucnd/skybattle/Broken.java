@@ -1,10 +1,9 @@
 package utc.it.thucnd.skybattle;
 
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-public class Boom {
+public class Broken {
     private int x;
     private int y;
     private int width;
@@ -12,7 +11,7 @@ public class Boom {
     private Animation animation = new Animation();
     private Bitmap spritesheet;
 
-    public Boom(Bitmap res, int x, int y, int w, int h, int numFrames) {
+    public Broken(Bitmap res, int x, int y, int w, int h, int numFrames) {
         this.x = x;
         this.y = y;
         this.width = w;

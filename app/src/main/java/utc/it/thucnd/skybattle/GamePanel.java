@@ -11,13 +11,12 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
 import java.util.ArrayList;
 import java.util.Random;
+
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     //Khai báo các biến cần sử dụng
@@ -36,11 +35,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private MyPlane myplane;
     private long bulletStartTime;
     private Combustor combustor;
+    private long StartTime;
     private long missileStartTime;
     private long whiteplaneStartTime;
     private long yellowplaneStartTime;
     private long redplaneStartTime;
     private long smokeStartTime;
+    private long elapsed;
     private SoundPlayer sound;
     public MediaPlayer bgmusic;
     private Random rand = new Random();
@@ -48,7 +49,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private ArrayList<BossPlane> bossplane;
     private ArrayList<Explosion> explosion;
     private ArrayList<Bullet> bullet;
-    private ArrayList<Boom> boom;
+    private ArrayList<Broken> broken;
     private ArrayList<Smokepuff> smokepuff;
 
 
@@ -90,8 +91,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         if (randmap < 3) {
             background = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.game_map));
             bgmusic = MediaPlayer.create(gameContext, R.raw.newbattle);
-        }
-        else {
+        } else {
             background = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.game_map2));
             bgmusic = MediaPlayer.create(gameContext, R.raw.finalbattle);
         }
@@ -101,13 +101,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         bgmusic.start();
         myplane = new MyPlane(BitmapFactory.decodeResource(getResources(), R.drawable.myplane), 76, 70, 4);
         combustor = new Combustor(BitmapFactory.decodeResource(getResources(), R.drawable.combustor), 23, 40, 4);
-        missileStartTime = smokeStartTime = bulletStartTime =
+        StartTime = missileStartTime = smokeStartTime = bulletStartTime =
                 whiteplaneStartTime = yellowplaneStartTime = redplaneStartTime = System.nanoTime();
         missiles = new ArrayList<Missile>();
         explosion = new ArrayList<Explosion>();
         bossplane = new ArrayList<BossPlane>();
         bullet = new ArrayList<Bullet>();
-        boom = new ArrayList<Boom>();
+        broken = new ArrayList<Broken>();
         smokepuff = new ArrayList<Smokepuff>();
 
     }
@@ -155,123 +155,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             myplane.update();
             combustor.setMove(myplane.getX(), myplane.getY());
             combustor.update();
-            long elapsed;
-            //bắt đầu thêm đạn bắn
-            elapsed = (System.nanoTime() - bulletStartTime) / 1000000;
-            if (elapsed > 200) {
-                bullet.add(new Bullet(BitmapFactory.decodeResource(getResources(), R.drawable.bullet),
-                        myplane.getX(), myplane.getY(), 25, 36, 15, 1));
-                //reset timer
-                bulletStartTime = System.nanoTime();
-                //sound.playGunSound();
-            }
-            //cập nhật mỗi bullet và kiểm tra va trạm
-            for (int i = 0; i < bullet.size(); i++) {
-                bullet.get(i).update();
-                for (int j = 0; j < bossplane.size(); j++) {
-                    if (collision(bullet.get(i), bossplane.get(j))) {
-                        myplane.addScore(3);
-                        andBoom(j);
-                        //xóa boss plane nếu bắn trúng boss plane
-                        bossplane.remove(j);
-                        sound.playHitSound();
-                        break;
-                    }
-                }
-                //loại bỏ Bullet nếu nó đi ra ngoài màn hình
-                if (bullet.get(i).getY() < 20) {
-                    bullet.remove(i);
-                    break;
-                }
-            }
-
-            //bắt đầu thêm tên lửa
-            elapsed = (System.nanoTime() - missileStartTime) / 1000000;
-            if (elapsed > (2000 - myplane.getScore() / 2)) {
-                missiles.add(new Missile(BitmapFactory.decodeResource(getResources(), R.drawable.missile),
-                        (int) (rand.nextDouble() * WIDTH - 20), -100, 20, 60, myplane.getScore(), 13));
-                //reset timer
-                missileStartTime = System.nanoTime();
-            }
-            //cập nhật mỗi tên lửa và kiểm tra va trạm
-            for (int i = 0; i < missiles.size(); i++) {
-                missiles.get(i).update();
-                if (collision(missiles.get(i), myplane)) {
-                    //xóa tên lửa nếu nó đã phát nổ
-                    missiles.remove(i);
-                    gameover();
-                    break;
-                }
-                //loại bỏ tên lửa nếu nó đi ra ngoài màn hình
-                if (missiles.get(i).getY() > HEIGHT + 50) {
-                    missiles.remove(i);
-                    break;
-                }
-            }
-            //bắt đầu thêm boss plane
-            elapsed = (System.nanoTime() - whiteplaneStartTime) / 1000000;
-            if (elapsed > (2000 - myplane.getScore() / 2)) {
-                bossplane.add(new BossPlane(BitmapFactory.decodeResource(getResources(), R.drawable.whiteboss),
-                        (int) (rand.nextDouble() * WIDTH), -200, 70, 50, myplane.getScore(), 3));
-                //reset timer
-                whiteplaneStartTime = System.nanoTime();
-            }
-            elapsed = (System.nanoTime() - yellowplaneStartTime) / 1000000;
-            if (elapsed > (3000 - myplane.getScore() / 2)) {
-                bossplane.add(new BossPlane(BitmapFactory.decodeResource(getResources(), R.drawable.yellowboss),
-                        (int) (rand.nextDouble() * WIDTH), -200, 70, 50, myplane.getScore(), 3));
-                //reset timer
-                yellowplaneStartTime = System.nanoTime();
-            }
-
-            elapsed = (System.nanoTime() - redplaneStartTime) / 1000000;
-            if (elapsed > (5000 - myplane.getScore() / 2)) {
-                bossplane.add(new BossPlane(BitmapFactory.decodeResource(getResources(), R.drawable.redboss),
-                        (int) (rand.nextDouble() * WIDTH), -200, 70, 50, myplane.getScore(), 3));
-                //reset timer
-                redplaneStartTime = System.nanoTime();
-            }
-            elapsed = (System.nanoTime() - smokeStartTime) / 1000000;
-            //cập nhật mỗi boss plane và kiểm tra va trạm
-            for (int i = 0; i < bossplane.size(); i++) {
-                bossplane.get(i).update();
-                //thêm khói sau  boss plane
-                if (elapsed > 120) {
-                    smokepuff.add(new Smokepuff(bossplane.get(i).getX(), bossplane.get(i).getY()));
-                    smokeStartTime = System.nanoTime();
-                }
-                if (collision(bossplane.get(i), myplane)) {
-                    //xóa boss plane nếu nó đã phát nổ
-                    bossplane.remove(i);
-                    gameover();
-                    break;
-                }
-                //loại bỏ plane nếu nó đi ra ngoài màn hình
-                if (bossplane.get(i).getY() > HEIGHT + 10) {
-                    bossplane.remove(i);
-                    break;
-                }
-            }
-            //cập nhật mỗi viên khói và loại bỏ
-            for (int i = 0; i < smokepuff.size(); i++) {
-                smokepuff.get(i).update();
-                if (smokepuff.get(i).getTimeLife() > 8) {
-                    smokepuff.remove(i);
-                }
-            }
-            // cập nhật bắn nổ boss plane
-            for (int i = 0; i < boom.size(); i++) {
-                boom.get(i).update();
-            }
+            addBullet();
+            addMissile();
+            addBossPlane();
 
         } else {
-            //thêm vụ nổ khi có va trạm
-            if (explosion.size() == 0) {
-                explosion.add(new Explosion(BitmapFactory.decodeResource(getResources(), R.drawable.explosion), myplane.getX(),
-                        myplane.getY() - 30, 100, 100, 25));
-            }
-            //cập nhật vụ nổ
-            explosion.get(0).update();
+            addExplosion();
             //đợi vụ nổ diễn ra
             if (wait != 0 && getout) {
                 wait--;
@@ -284,10 +173,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     //hàm kiểm tra va trạm giữa 2 đối tượng trong game
     public boolean collision(GameObject a, GameObject b) {
-        if (Rect.intersects(a.getRectangle(), b.getRectangle())) {
-            return true;
-        }
-        return false;
+        return Rect.intersects(a.getRectangle(), b.getRectangle());
     }
 
     @Override
@@ -312,7 +198,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 bu.draw(canvas);
             }
             //vẽ bắn trúng
-            for (Boom b : boom) {
+            for (Broken b : broken) {
                 b.draw(canvas);
             }
             //vẽ boss plane
@@ -339,12 +225,136 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         paint.setTextSize(30);
         paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         canvas.drawText("Score: " + myplane.getScore(), 10, 25, paint);
-        //canvas.drawText("HighScore: " + highscore,GamePanel.WIDTH - 210, 25, paint);
     }
 
-    public void andBoom(int j) {
-        boom.add(new Boom(BitmapFactory.decodeResource(getResources(), R.drawable.boom),
+
+    public void addBullet() {
+        //bắt đầu thêm đạn bắn
+        elapsed = (System.nanoTime() - bulletStartTime) / 1000000;
+        if (elapsed > 250) {
+            bullet.add(new Bullet(BitmapFactory.decodeResource(getResources(), R.drawable.bullet),
+                    myplane.getX(), myplane.getY(), 25, 36, 15, 1));
+            //reset timer
+            bulletStartTime = System.nanoTime();
+        }
+        //cập nhật mỗi bullet và kiểm tra va trạm
+        for (int i = 0; i < bullet.size(); i++) {
+            bullet.get(i).update();
+            for (int j = 0; j < bossplane.size(); j++) {
+                if (collision(bullet.get(i), bossplane.get(j))) {
+                    myplane.addScore(3);
+                    addBroken(j);
+                    //xóa boss plane nếu bắn trúng boss plane
+                    bossplane.remove(j);
+                    sound.playHitSound();
+                    break;
+                }
+            }
+            //loại bỏ Bullet nếu nó đi ra ngoài màn hình
+            if (bullet.get(i).getY() < 20) {
+                bullet.remove(i);
+                break;
+            }
+        }
+        // cập nhật bắn nổ boss plane
+        for (int i = 0; i < broken.size(); i++) {
+            broken.get(i).update();
+        }
+    }
+
+    public void addBroken(int j) {
+        broken.add(new Broken(BitmapFactory.decodeResource(getResources(), R.drawable.broken),
                 bossplane.get(j).getX(), bossplane.get(j).getY(), 64, 64, 3));
+    }
+
+    public void addMissile() {
+        //bắt đầu thêm tên lửa
+        elapsed = (System.nanoTime() - missileStartTime) / 1000000;
+        if (elapsed > (2000 - myplane.getScore() / 2)) {
+            missiles.add(new Missile(BitmapFactory.decodeResource(getResources(), R.drawable.missile),
+                    (int) (rand.nextDouble() * WIDTH - 20), -100, 20, 60, myplane.getScore(), 13));
+            //reset timer
+            missileStartTime = System.nanoTime();
+        }
+        //cập nhật mỗi tên lửa và kiểm tra va trạm
+        for (int i = 0; i < missiles.size(); i++) {
+            missiles.get(i).update();
+            if (collision(missiles.get(i), myplane)) {
+                //xóa tên lửa nếu nó đã phát nổ
+                missiles.remove(i);
+                gameover();
+                break;
+            }
+            //loại bỏ tên lửa nếu nó đi ra ngoài màn hình
+            if (missiles.get(i).getY() > HEIGHT + 50) {
+                missiles.remove(i);
+                break;
+            }
+        }
+    }
+
+    public void addBossPlane() {
+        //bắt đầu thêm boss plane
+        elapsed = (System.nanoTime() - whiteplaneStartTime) / 1000000;
+        if (elapsed > (2000 - myplane.getScore() / 2)) {
+            bossplane.add(new BossPlane(BitmapFactory.decodeResource(getResources(), R.drawable.whiteboss),
+                    (int) (rand.nextDouble() * WIDTH), -200, 70, 50, myplane.getScore(), 3));
+            //reset timer
+            whiteplaneStartTime = System.nanoTime();
+        }
+        elapsed = (System.nanoTime() - yellowplaneStartTime) / 1000000;
+        if (elapsed > (3000 - myplane.getScore() / 2)) {
+            bossplane.add(new BossPlane(BitmapFactory.decodeResource(getResources(), R.drawable.yellowboss),
+                    (int) (rand.nextDouble() * WIDTH), -200, 70, 50, myplane.getScore(), 3));
+            //reset timer
+            yellowplaneStartTime = System.nanoTime();
+        }
+
+        elapsed = (System.nanoTime() - redplaneStartTime) / 1000000;
+        if (elapsed > (5000 - myplane.getScore() / 2)) {
+            bossplane.add(new BossPlane(BitmapFactory.decodeResource(getResources(), R.drawable.redboss),
+                    (int) (rand.nextDouble() * WIDTH), -200, 70, 50, myplane.getScore(), 3));
+            //reset timer
+            redplaneStartTime = System.nanoTime();
+        }
+        elapsed = (System.nanoTime() - smokeStartTime) / 1000000;
+        //cập nhật mỗi boss plane và kiểm tra va trạm
+        for (int i = 0; i < bossplane.size(); i++) {
+            bossplane.get(i).update();
+            //thêm khói sau  boss plane
+            if (elapsed > 120) {
+                smokepuff.add(new Smokepuff(bossplane.get(i).getX(), bossplane.get(i).getY()));
+                smokeStartTime = System.nanoTime();
+            }
+            if (collision(bossplane.get(i), myplane)) {
+                //xóa boss plane nếu nó đã phát nổ
+                bossplane.remove(i);
+                gameover();
+                break;
+            }
+            //loại bỏ plane nếu nó đi ra ngoài màn hình
+            if (bossplane.get(i).getY() > HEIGHT + 10) {
+                bossplane.remove(i);
+                break;
+            }
+        }
+        //cập nhật mỗi viên khói và loại bỏ
+        for (int i = 0; i < smokepuff.size(); i++) {
+            smokepuff.get(i).update();
+            if (smokepuff.get(i).getTimeLife() > 8) {
+                smokepuff.remove(i);
+            }
+        }
+    }
+
+    public void addExplosion() {
+        //thêm vụ nổ khi có va trạm
+        if (explosion.size() == 0) {
+            explosion.add(new Explosion(BitmapFactory.decodeResource(getResources(), R.drawable.explosion), myplane.getX(),
+                    myplane.getY() - 30, 100, 100, 25));
+        }
+        //cập nhật vụ nổ
+        explosion.get(0).update();
     }
 
     public void gameover() {
@@ -361,7 +371,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         }
         //xóa các đối tượng trong game
         bullet.clear();
-        boom.clear();
+        broken.clear();
         explosion.clear();
         smokepuff.clear();
         bossplane.clear();

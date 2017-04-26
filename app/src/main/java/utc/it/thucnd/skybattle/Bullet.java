@@ -18,13 +18,13 @@ public class Bullet extends GameObject{
         Bitmap[] image = new Bitmap[numFrames];
         spritesheet = res;
         for (int i = 0; i < image.length; i++) {
-            image[i] = Bitmap.createBitmap(spritesheet, 0, i * height, width, height);
+            image[i] = Bitmap.createBitmap(spritesheet, i * width, 0, width, height);
         }
         animation.setFrames(image);
-        animation.setDelay(30);
+        animation.setDelay(100);
     }
     public void update() {
-        //animation.update();
+           // animation.update();
         y -= speed;
     }
     public void draw(Canvas canvas) {
