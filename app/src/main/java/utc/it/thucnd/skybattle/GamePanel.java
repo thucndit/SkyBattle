@@ -14,6 +14,7 @@ import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -79,7 +80,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         thread.setRunning(true);
         thread.start();
         getout = false;
-        wait = 50;
+        wait = 60;
         int randmap = rand.nextInt(5);
         sound = new SoundPlayer(gameContext);
 
