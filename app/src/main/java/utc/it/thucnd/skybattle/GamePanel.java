@@ -80,7 +80,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         thread.setRunning(true);
         thread.start();
         getout = false;
-        wait = 60;
+        wait = 50;
         int randmap = rand.nextInt(5);
         sound = new SoundPlayer(gameContext);
 
