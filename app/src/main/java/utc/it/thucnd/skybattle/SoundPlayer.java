@@ -17,6 +17,7 @@ public class SoundPlayer {
     private static int destroySound;
     private static int gunSound;
     private static int picSound;
+    private static int laserSound;
 
 
     public SoundPlayer(Context context) {
@@ -43,6 +44,7 @@ public class SoundPlayer {
         destroySound = soundPool.load(context, R.raw.destroy, 1);
         gunSound = soundPool.load(context, R.raw.gun, 1);
         picSound = soundPool.load(context, R.raw.pic, 1);
+        laserSound = soundPool.load(context, R.raw.laser, 1);
 
     }
 
@@ -50,14 +52,18 @@ public class SoundPlayer {
         // play(int soundID, float leftVolume, float rightVolume, int priority, int loop, float rate)
         soundPool.play(hitSound, 1.0f, 1.0f, 1, 0, 1.0f);
     }
+
     public void playGunSound() {
         soundPool.play(gunSound, 0.3f, 0.3f, 1, 0, 1.0f);
     }
+
     public void playPicSound() {
         soundPool.play(picSound, 0.3f, 0.3f, 1, 0, 1.0f);
     }
-    public void playDestroySound() {
 
-        soundPool.play(destroySound, 0.8f, 0.8f, 1, 0, 1.0f);
+    public void playLaserSound() {
+        soundPool.play(laserSound, 0.8f, 0.8f, 1, 0, 1.0f);
     }
+
+    public void playDestroySound() {soundPool.play(destroySound, 0.8f, 0.8f, 1, 0, 1.0f); }
 }

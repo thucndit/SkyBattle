@@ -342,7 +342,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public void addBossMaster() {
         //bắt đầu thêm boss master
         elapsed = (System.nanoTime() - StartTime) / 1000000000;
-        if (elapsed > 20) {
+        if (elapsed > 60) {
             bossmaster.add(new BossMaster(BitmapFactory.decodeResource(getResources(), R.drawable.bossmaster),
                     (int) (rand.nextDouble() * WIDTH), -150, 278, 150, bossLevel, 3));
             isMaster = true;
@@ -375,8 +375,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                     if (left) left = false;
                     else left = true;
                     laser.add(new Laser(BitmapFactory.decodeResource(getResources(), R.drawable.laser),
-                            bossmaster.get(i).getX(), bossmaster.get(i).getY(), 25, 69, 15, left, 3));
-
+                            bossmaster.get(i).getX(), bossmaster.get(i).getY(), 25, 69, 12, left, 3));
+                    sound.playLaserSound();
                     //reset timer
                     laserStartTime = System.nanoTime();
                 }
