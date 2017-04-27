@@ -228,6 +228,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                         picPlus = 0;
                         myplane.addScore(15 * bossLevel);
                         bossLevel++;
+                        isMaster = false;
                     }
                     break;
                 }
