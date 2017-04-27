@@ -54,7 +54,6 @@ public class Missile extends GameObject {
     @Override
     public Rect getRectangle() {
         //giảm khoảng cách để thấy được va chạm
-        return new Rect(x + 10, y + 10, x + width - 10, y + height - 10);
+        return new Rect(x + 5, y + 5, x + width - 5, y + height - 5);
     }
-
 }
