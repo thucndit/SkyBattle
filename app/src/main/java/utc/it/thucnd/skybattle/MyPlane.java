@@ -14,7 +14,7 @@ public class MyPlane extends GameObject {
 
     public MyPlane(Bitmap res, int w, int h, int numFrames) {
 
-        x = GamePanel.WIDTH / 2 - 50;
+        x = GamePanel.WIDTH / 2 - 38;
         y = GamePanel.HEIGHT - 200;
         score = 0;
         height = h;
@@ -46,11 +46,11 @@ public class MyPlane extends GameObject {
         }
         animation.update();
         //thay đổi vị trí
-        if (Math.abs(mx - x) > 10) {
-            if (mx > x) x += 3 * GamePanel.scaleX;
-            else x -= 3 * GamePanel.scaleX;
+        if (Math.abs(mx - x) > 8) {
+            if (mx > x) x += 4.5 * GamePanel.scaleX;
+            else x -= 4.5 * GamePanel.scaleX;
         }
-        if (Math.abs(my - y) > 10) {
+        if (Math.abs(my - y) > 8) {
             if (my > y) y += 4 * GamePanel.scaleY;
             else y -= 4 * GamePanel.scaleY;
         }

@@ -11,7 +11,7 @@ public class Combustor extends GameObject {
     private int my;
 
     public Combustor(Bitmap res, int w, int h, int numFrames) {
-        x = GamePanel.WIDTH / 2 - 22;
+        x = GamePanel.WIDTH / 2 - 10;
         y = GamePanel.HEIGHT - 138;
         height = h;
         width = w;
@@ -25,7 +25,7 @@ public class Combustor extends GameObject {
     }
     public void setMove(int mx, int my) {
 
-        this.mx = mx + 27;
+        this.mx = mx + 28;
         this.my = my + 63;
     }
     public void update() {
