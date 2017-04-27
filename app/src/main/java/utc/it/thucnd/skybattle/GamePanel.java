@@ -189,7 +189,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public void addBullet() {
         //bắt đầu thêm đạn bắn
         elapsed = (System.nanoTime() - bulletStartTime) / 1000000;
-        if (elapsed > 250) {
+        if (elapsed > 200) {
             bullet.add(new Bullet(BitmapFactory.decodeResource(getResources(), R.drawable.bullet),
                     myplane.getX(), myplane.getY(), 25, 36, 15, 1));
             //reset timer
@@ -222,6 +222,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                     picPlus++;
                     bullet.remove(i);
                     sound.playPicSound();
+                    if(picPlus > (20 + bossLevel * 5)){
+                        bossmaster.remove(j);
+                        sound.playDestroySound();
+                        picPlus = 0;
+                        myplane.addScore(15 * bossLevel);
+                        bossLevel++;
+                    }
                     break;
                 }
             }
@@ -324,8 +331,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public void addBossMaster() {
         //bắt đầu thêm boss master
-        elapsed = (System.nanoTime() - StartTime) / 1000000;
-        if (elapsed > 8000) {
+        elapsed = (System.nanoTime() - StartTime) / 1000000000;
+        if (elapsed > 60) {
             bossmaster.add(new BossMaster(BitmapFactory.decodeResource(getResources(), R.drawable.bossmaster),
                     (int) (rand.nextDouble() * WIDTH), -200, 278, 150, bossLevel, 3));
             isMaster = true;

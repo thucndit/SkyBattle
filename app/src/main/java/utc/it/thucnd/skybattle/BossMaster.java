@@ -13,7 +13,6 @@ public class BossMaster extends GameObject {
     private Animation animation = new Animation();
     private Bitmap spritesheet;
     private int dx;
-    private int upScore;
     private long startTime;
 
     public BossMaster(Bitmap res, int x, int y, int w, int h, int lv, int numFrames) {
@@ -21,8 +20,7 @@ public class BossMaster extends GameObject {
         super.y = y;
         width = w;
         height = h;
-        upScore = lv * 50;
-        dx = rand.nextInt(10) - 5;
+        dx = rand.nextInt(8) - 4;
         Bitmap[] image = new Bitmap[numFrames];
         spritesheet = res;
         for (int i = 0; i < image.length; i++) {
@@ -35,12 +33,12 @@ public class BossMaster extends GameObject {
 
     public void update() {
         long elapsed = (System.nanoTime() - startTime) / 1000000;
-        if (elapsed > 1000) {
-            dx = rand.nextInt(10) - 5;
+        if (elapsed > 1500) {
+            dx = rand.nextInt(8) - 4;
             startTime = System.nanoTime();
         }
         x += dx;
-        y += 2;
+        y += 1;
         animation.update();
         //giới hạn trong màn hình
         if (x < 5) x = 5;
@@ -55,9 +53,6 @@ public class BossMaster extends GameObject {
         }
     }
 
-    public int getUpScore() {
-        return upScore;
-    }
 
     @Override
     public Rect getRectangle() {
