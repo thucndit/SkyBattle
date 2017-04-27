@@ -47,12 +47,12 @@ public class MyPlane extends GameObject {
         animation.update();
         //thay đổi vị trí
         if (Math.abs(mx - x) > 8) {
-            if (mx > x) x += 4.5 * GamePanel.scaleX;
-            else x -= 4.5 * GamePanel.scaleX;
+            if (mx > x) x += 8 * GamePanel.scaleX;
+            else x -= 8 * GamePanel.scaleX;
         }
         if (Math.abs(my - y) > 8) {
-            if (my > y) y += 4 * GamePanel.scaleY;
-            else y -= 4 * GamePanel.scaleY;
+            if (my > y) y += 5 * GamePanel.scaleY;
+            else y -= 5 * GamePanel.scaleY;
         }
         //giới hạn độ cao trong màn hình
         if (y < 0) y = 0;
