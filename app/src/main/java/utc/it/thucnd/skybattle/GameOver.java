@@ -1,9 +1,8 @@
 package utc.it.thucnd.skybattle;
 
-import android.content.Intent;
 import android.graphics.Point;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
@@ -20,7 +19,7 @@ public class GameOver extends AppCompatActivity {
 
         TextView tvScore = (TextView) findViewById(R.id.tv_score);
         TextView tvHighScore = (TextView) findViewById(R.id.tv_highscore);
-        Button btnAgain = (Button) findViewById(R.id.btn_again);;
+        Button btnAgain = (Button) findViewById(R.id.btn_again);
 
         int score = getIntent().getIntExtra("Score", 0);
         int highscore = getIntent().getIntExtra("HighScore", 0);
@@ -35,10 +34,11 @@ public class GameOver extends AppCompatActivity {
         float scaleX = size.x / 512;
         float scaleY = size.y / 768;
 
-        btnAgain.setWidth((int) (300*scaleX));
-        btnAgain.setHeight((int) (150*scaleY));
+        btnAgain.setWidth((int) (300 * scaleX));
+        btnAgain.setHeight((int) (120 * scaleY));
 
     }
+
     // Disable Return Button
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {

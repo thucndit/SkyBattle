@@ -1,66 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/startbg"
-    android:gravity="center"
     tools:context="utc.it.thucnd.skybattle.GameStart">
 
-    <TableLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/sec" />
-
-            <TextView
-                android:layout_marginLeft="20dp"
-                android:text="1 Score"
-                android:textColor="#fff"
-                android:textSize="30sp"
-                android:textStyle="normal" />
-        </TableRow>
-
-
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:src="@drawable/yellow" />
-
-            <TextView
-                android:layout_marginLeft="20dp"
-                android:text="3 Score"
-                android:textColor="#fff"
-                android:textSize="30sp"
-                android:textStyle="normal" />
-        </TableRow>
-
-
-    </TableLayout>
 
     <Button
         android:id="@+id/btn_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="200dp"
         android:background="@drawable/btstart"
         android:onClick="GameStart" />
 
-</LinearLayout>
+</RelativeLayout>
