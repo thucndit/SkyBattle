@@ -35,6 +35,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private boolean playing;
     private boolean getout;
     private boolean isMaster;
+    private boolean left;
     private Background background;
     private MyPlane myplane;
     private long bulletStartTime;
@@ -45,6 +46,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private long yellowplaneStartTime;
     private long redplaneStartTime;
     private long smokeStartTime;
+    private long laserStartTime;
     private long elapsed;
     private SoundPlayer sound;
     public MediaPlayer bgmusic;
@@ -54,6 +56,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private ArrayList<BossMaster> bossmaster;
     private ArrayList<Explosion> explosion;
     private ArrayList<Bullet> bullet;
+    private ArrayList<Laser> laser;
     private ArrayList<Broken> broken;
     private ArrayList<Smokepuff> smokepuff;
 
@@ -108,13 +111,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         bgmusic.start();
         myplane = new MyPlane(BitmapFactory.decodeResource(getResources(), R.drawable.myplane), 76, 70, 4);
         combustor = new Combustor(BitmapFactory.decodeResource(getResources(), R.drawable.combustor), 23, 40, 4);
-        StartTime = missileStartTime = smokeStartTime = bulletStartTime =
+        StartTime = laserStartTime = missileStartTime = smokeStartTime = bulletStartTime =
                 whiteplaneStartTime = yellowplaneStartTime = redplaneStartTime = System.nanoTime();
         missiles = new ArrayList<Missile>();
         explosion = new ArrayList<Explosion>();
         bossplane = new ArrayList<BossPlane>();
         bossmaster = new ArrayList<BossMaster>();
         bullet = new ArrayList<Bullet>();
+        laser = new ArrayList<Laser>();
         broken = new ArrayList<Broken>();
         smokepuff = new ArrayList<Smokepuff>();
 
@@ -167,6 +171,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             addMissile();
             addBossPlane();
             addBossMaster();
+            addLaser();
 
         } else {
             addExplosion();
@@ -195,7 +200,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             //reset timer
             bulletStartTime = System.nanoTime();
         }
-        //cập nhật mỗi bullet và kiểm tra va chạm
+        //cập nhật mỗi bullet
         for (int i = 0; i < bullet.size(); i++) {
             bullet.get(i).update();
             //loại bỏ Bullet nếu nó đi ra ngoài màn hình
@@ -204,6 +209,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 break;
             }
         }
+        //kiểm tra va chạm
         for (int i = 0; i < bullet.size(); i++) {
             for (int j = 0; j < bossplane.size(); j++) {
                 if (collision(bullet.get(i), bossplane.get(j))) {
@@ -216,17 +222,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                     break;
                 }
             }
+        }
+        for (int i = 0; i < bullet.size(); i++) {
             for (int j = 0; j < bossmaster.size(); j++) {
                 if (collision(bullet.get(i), bossmaster.get(j))) {
                     //tăng điểm cộng dồn và xóa bullet
                     picPlus++;
                     bullet.remove(i);
                     sound.playPicSound();
-                    if(picPlus > (20 + bossLevel * 5)){
+                    if (picPlus > (bossmaster.get(j).getPicPlus())) {
+                        myplane.addScore(bossmaster.get(j).getUpScore());
                         bossmaster.remove(j);
+                        laser.clear();
                         sound.playDestroySound();
                         picPlus = 0;
-                        myplane.addScore(15 * bossLevel);
                         bossLevel++;
                         isMaster = false;
                     }
@@ -266,7 +275,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 break;
             }
             //loại bỏ tên lửa nếu nó đi ra ngoài màn hình
-            if (missiles.get(i).getY() > HEIGHT + 70) {
+            if (missiles.get(i).getY() > HEIGHT + 10) {
                 missiles.remove(i);
                 break;
             }
@@ -316,7 +325,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 break;
             }
             //loại bỏ plane nếu nó đi ra ngoài màn hình
-            if (bossplane.get(i).getY() > HEIGHT + 60) {
+            if (bossplane.get(i).getY() > HEIGHT + 10) {
                 bossplane.remove(i);
                 break;
             }
@@ -333,9 +342,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public void addBossMaster() {
         //bắt đầu thêm boss master
         elapsed = (System.nanoTime() - StartTime) / 1000000000;
-        if (elapsed > 60) {
+        if (elapsed > 20) {
             bossmaster.add(new BossMaster(BitmapFactory.decodeResource(getResources(), R.drawable.bossmaster),
-                    (int) (rand.nextDouble() * WIDTH), -200, 278, 150, bossLevel, 3));
+                    (int) (rand.nextDouble() * WIDTH), -150, 278, 150, bossLevel, 3));
             isMaster = true;
             //reset timer
             StartTime = System.nanoTime();
@@ -348,9 +357,44 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 break;
             }
             //loại bỏ boss master nếu nó đi ra ngoài màn hình
-            if (bossmaster.get(i).getY() > HEIGHT + 160) {
+            if (bossmaster.get(i).getY() > HEIGHT + 10) {
                 bossmaster.remove(i);
+                picPlus = 0;
+                bossLevel++;
                 break;
+            }
+        }
+    }
+
+    public void addLaser() {
+        if (isMaster) {
+            //bắt đầu thêm laser
+            elapsed = (System.nanoTime() - laserStartTime) / 1000000;
+            for (int i = 0; i < bossmaster.size(); i++) {
+                if (elapsed > 1500) {
+                    if (left) left = false;
+                    else left = true;
+                    laser.add(new Laser(BitmapFactory.decodeResource(getResources(), R.drawable.laser),
+                            bossmaster.get(i).getX(), bossmaster.get(i).getY(), 25, 69, 15, left, 3));
+
+                    //reset timer
+                    laserStartTime = System.nanoTime();
+                }
+            }
+            for (int i = 0; i < laser.size(); i++) {
+                laser.get(i).update();
+                // kiểm tra va chạm
+                if (collision(laser.get(i), myplane)) {
+                    //xóa laser nếu nó bắn trúng
+                    laser.remove(i);
+                    gameover();
+                    break;
+                }
+                //loại bỏ laser nếu nó đi ra ngoài màn hình
+                if (laser.get(i).getY() > HEIGHT + 10) {
+                    laser.remove(i);
+                    break;
+                }
             }
         }
     }
@@ -394,10 +438,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             for (BossPlane bp : bossplane) {
                 bp.draw(canvas);
             }
+            //vẽ laser
+            for (Laser l : laser) {
+                l.draw(canvas);
+            }
             //vẽ boss master
             for (BossMaster bm : bossmaster) {
                 bm.draw(canvas);
             }
+
             //vẽ khói
             for (Smokepuff sp : smokepuff) {
                 sp.draw(canvas);
@@ -439,6 +488,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         smokepuff.clear();
         bossplane.clear();
         missiles.clear();
+        bossmaster.clear();
+        laser.clear();
     }
 
     public void moveResult() {
