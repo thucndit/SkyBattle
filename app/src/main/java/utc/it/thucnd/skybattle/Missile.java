@@ -1,7 +1,9 @@
 package utc.it.thucnd.skybattle;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+
 import java.util.Random;
 
 
@@ -13,11 +15,10 @@ public class Missile extends GameObject {
     private Bitmap spritesheet;
 
     public Missile(Bitmap res, int x, int y, int w, int h, int s, int numFrames) {
-        if(x == 0){
+        if (x == 0) {
             x += 10;
         }
-        if(x == GamePanel.WIDTH)
-        {
+        if (x == GamePanel.WIDTH) {
             x -= 30;
         }
         super.x = x;
@@ -53,7 +54,7 @@ public class Missile extends GameObject {
     @Override
     public Rect getRectangle() {
         //giảm khoảng cách để thấy được va chạm
-        return new Rect(x - 15, y - 15, x + width - 15, y + height-15);
+        return new Rect(x - 15, y - 15, x + width - 15, y + height - 15);
     }
 
 }
