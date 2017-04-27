@@ -271,9 +271,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public void addMissile() {
         //bắt đầu thêm tên lửa
         elapsed = (System.nanoTime() - missileStartTime) / 1000000;
-        if (elapsed > (2000 - myplane.getScore() / 2)) {
+        if (elapsed > (2500 - myplane.getScore() / 2)) {
             missiles.add(new Missile(BitmapFactory.decodeResource(getResources(), R.drawable.missile),
-                    (int) (rand.nextDouble() * WIDTH - 20), -100, 20, 60, myplane.getScore(), 13));
+                    (int) (rand.nextDouble() * WIDTH), -100, 20, 60, myplane.getScore(), 13));
             //reset timer
             missileStartTime = System.nanoTime();
         }

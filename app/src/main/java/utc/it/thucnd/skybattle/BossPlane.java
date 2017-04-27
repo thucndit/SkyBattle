@@ -43,8 +43,8 @@ public class BossPlane extends GameObject {
         y += speed;
         //animation.update();
         //giới hạn trong màn hình
-        if (x < 0) x = 0;
-        if (x > GamePanel.WIDTH - 72) x = GamePanel.WIDTH - 72;
+        if (x < 5) x = 5;
+        if (x > GamePanel.WIDTH - 75) x = GamePanel.WIDTH - 75;
     }
 
     public void draw(Canvas canvas) {

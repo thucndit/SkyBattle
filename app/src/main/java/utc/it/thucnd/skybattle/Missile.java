@@ -13,6 +13,13 @@ public class Missile extends GameObject {
     private Bitmap spritesheet;
 
     public Missile(Bitmap res, int x, int y, int w, int h, int s, int numFrames) {
+        if(x == 0){
+            x += 10;
+        }
+        if(x == GamePanel.WIDTH)
+        {
+            x -= 30;
+        }
         super.x = x;
         super.y = y;
         width = w;
@@ -28,7 +35,6 @@ public class Missile extends GameObject {
         }
         animation.setFrames(image);
         animation.setDelay(100 - speed);
-
     }
 
     public void update() {
