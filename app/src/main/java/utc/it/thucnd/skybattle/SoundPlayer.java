@@ -65,5 +65,7 @@ public class SoundPlayer {
         soundPool.play(laserSound, 0.8f, 0.8f, 1, 0, 1.0f);
     }
 
-    public void playDestroySound() {soundPool.play(destroySound, 0.8f, 0.8f, 1, 0, 1.0f); }
+    public void playDestroySound() {
+        soundPool.play(destroySound, 0.8f, 0.8f, 1, 0, 1.0f);
+    }
 }

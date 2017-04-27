@@ -22,7 +22,7 @@ public class Background {
     public void draw(Canvas canvas) {
         canvas.drawBitmap(image, 0, y, null);
         if (y > 0) {
-            canvas.drawBitmap(image, 0, -(GamePanel.HEIGHT-y), null);
+            canvas.drawBitmap(image, 0, -(GamePanel.HEIGHT - y), null);
         }
     }
 

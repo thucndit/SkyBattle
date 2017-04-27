@@ -9,7 +9,7 @@ public class Laser extends GameObject {
     private int speed;
 
     public Laser(Bitmap res, int x, int y, int w, int h, int s, boolean left, int numFrames) {
-        if(left) super.x = x + 75;
+        if (left) super.x = x + 75;
         else super.x = x + 175;
         super.y = y + 70;
         height = h;

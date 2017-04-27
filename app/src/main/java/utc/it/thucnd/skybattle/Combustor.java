@@ -23,16 +23,19 @@ public class Combustor extends GameObject {
         animation.setFrames(image);
         animation.setDelay(100);
     }
+
     public void setMove(int mx, int my) {
 
         this.mx = mx + 28;
         this.my = my + 63;
     }
+
     public void update() {
         animation.update();
         x = mx;
         y = my;
     }
+
     public void draw(Canvas canvas) {
 
         canvas.drawBitmap(animation.getImage(), x, y, null);

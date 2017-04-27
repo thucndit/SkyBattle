@@ -24,7 +24,7 @@ public class BossMaster extends GameObject {
         height = h;
         upScore = 10 + lv * 5;
         picPlus = 25 + lv * 10;
-        if(picPlus > 65) picPlus = 65;
+        if (picPlus > 65) picPlus = 65;
         dx = rand.nextInt(8) - 4;
         Bitmap[] image = new Bitmap[numFrames];
         spritesheet = res;
@@ -57,10 +57,12 @@ public class BossMaster extends GameObject {
         } catch (Exception e) {
         }
     }
-    public int getUpScore(){
+
+    public int getUpScore() {
         return upScore;
     }
-    public int getPicPlus(){
+
+    public int getPicPlus() {
         return picPlus;
     }
 
