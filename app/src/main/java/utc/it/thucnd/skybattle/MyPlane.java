@@ -35,7 +35,7 @@ public class MyPlane extends GameObject {
     public void setMove(int mx, int my) {
 
         this.mx = (int) (mx / GamePanel.scaleX) - 40;
-        this.my = (int) (my / GamePanel.scaleY) - 75;
+        this.my = (int) (my / GamePanel.scaleY) - 80;
     }
 
     public void update() {
