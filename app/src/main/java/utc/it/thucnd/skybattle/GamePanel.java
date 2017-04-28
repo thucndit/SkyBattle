@@ -233,7 +233,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                     if (picPlus > (bossmaster.get(j).getPicPlus())) {
                         myplane.addScore(bossmaster.get(j).getUpScore());
                         bossmaster.remove(j);
-                        laser.clear();
                         sound.playDestroySound();
                         picPlus = 0;
                         bossLevel++;
@@ -342,7 +341,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public void addBossMaster() {
         //bắt đầu thêm boss master
         elapsed = (System.nanoTime() - StartTime) / 1000000000;
-        if (elapsed > 60) {
+        if (elapsed > 65) {
             bossmaster.add(new BossMaster(BitmapFactory.decodeResource(getResources(), R.drawable.bossmaster),
                     (int) (rand.nextDouble() * WIDTH), -150, 278, 150, bossLevel, 3));
             isMaster = true;
@@ -381,20 +380,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                     laserStartTime = System.nanoTime();
                 }
             }
-            for (int i = 0; i < laser.size(); i++) {
-                laser.get(i).update();
-                // kiểm tra va chạm
-                if (collision(laser.get(i), myplane)) {
-                    //xóa laser nếu nó bắn trúng
-                    laser.remove(i);
-                    gameover();
-                    break;
-                }
-                //loại bỏ laser nếu nó đi ra ngoài màn hình
-                if (laser.get(i).getY() > HEIGHT + 10) {
-                    laser.remove(i);
-                    break;
-                }
+        }
+        for (int i = 0; i < laser.size(); i++) {
+            laser.get(i).update();
+            // kiểm tra va chạm
+            if (collision(laser.get(i), myplane)) {
+                //xóa laser nếu nó bắn trúng
+                laser.remove(i);
+                gameover();
+                break;
+            }
+            //loại bỏ laser nếu nó đi ra ngoài màn hình
+            if (laser.get(i).getY() > HEIGHT + 10) {
+                laser.remove(i);
+                break;
             }
         }
     }
