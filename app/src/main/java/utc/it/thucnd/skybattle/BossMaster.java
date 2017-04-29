@@ -25,7 +25,7 @@ public class BossMaster extends GameObject {
         upScore = 10 + lv * 5;
         picPlus = 25 + lv * 10;
         if (picPlus > 65) picPlus = 65;
-        dx = rand.nextInt(8) - 4;
+        dx = rand.nextInt(9) - 4;
         Bitmap[] image = new Bitmap[numFrames];
         spritesheet = res;
         for (int i = 0; i < image.length; i++) {
@@ -39,7 +39,7 @@ public class BossMaster extends GameObject {
     public void update() {
         long elapsed = (System.nanoTime() - startTime) / 1000000;
         if (elapsed > 1700) {
-            dx = rand.nextInt(8) - 4;
+            dx = rand.nextInt(9) - 4;
             startTime = System.nanoTime();
         }
         x += dx;

@@ -22,7 +22,7 @@ public class BossPlane extends GameObject {
         height = h;
         speed = 5 + (int) (rand.nextDouble() * s);
         if (speed > 15) speed = 15;
-        dx = rand.nextInt(8) - 4;
+        dx = rand.nextInt(9) - 4;
         Bitmap[] image = new Bitmap[numFrames];
         spritesheet = res;
         for (int i = 0; i < image.length; i++) {
@@ -36,7 +36,7 @@ public class BossPlane extends GameObject {
     public void update() {
         long elapsed = (System.nanoTime() - startTime) / 1000000;
         if (elapsed > 1000) {
-            dx = rand.nextInt(8) - 4;
+            dx = rand.nextInt(9) - 4;
             startTime = System.nanoTime();
         }
         x += dx;
