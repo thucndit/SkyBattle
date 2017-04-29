@@ -56,7 +56,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private long elapsed;
 
     private SoundPlayer sound;
-    public MediaPlayer bgmusic;
+    private MediaPlayer bgmusic;
 
     private ArrayList<Missile> missiles;
     private ArrayList<BossPlane> bossplane;
@@ -353,7 +353,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public void addBossMaster() {
         //bắt đầu thêm boss master
         elapsed = (System.nanoTime() - StartTime) / 1000000000;
-        if (elapsed > 65) {
+        if (elapsed > 75) {
             bossmaster.add(new BossMaster(BitmapFactory.decodeResource(getResources(), R.drawable.bossmaster),
                     (int) (rand.nextDouble() * WIDTH), -150, 278, 150, bossLevel, 3));
             addMaster = true;

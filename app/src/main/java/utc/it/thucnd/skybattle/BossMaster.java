@@ -24,7 +24,7 @@ public class BossMaster extends GameObject {
         height = h;
         upScore = 10 + lv * 5;
         picPlus = 25 + lv * 10;
-        if (picPlus > 65) picPlus = 65;
+        if (picPlus > 75) picPlus = 75;
         dx = rand.nextInt(9) - 4;
         Bitmap[] image = new Bitmap[numFrames];
         spritesheet = res;
