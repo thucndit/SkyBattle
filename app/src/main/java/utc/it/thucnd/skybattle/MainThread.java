@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
 public class MainThread extends Thread {
-    private int FPS = 31;
+    private int FPS = 35;
     private double averageFPS;
     private SurfaceHolder surfaceHolder;
     private GamePanel gamePanel;
@@ -24,6 +24,7 @@ public class MainThread extends Thread {
         long waitTime;
         long totalTime = 0;
         int frameCount = 0;
+        //tính thời gian chạy 1 khung hình trên millis giây
         long targetTime = 1000 / FPS;
 
         while (running) {
@@ -54,11 +55,11 @@ public class MainThread extends Thread {
             } catch (Exception e) {
             }
 
-            totalTime += System.nanoTime() - startTime;
+            totalTime += (System.nanoTime() - startTime) / 1000000;
             frameCount++;
             //đếm và hiển trị FSP trung bình
             if (frameCount == FPS) {
-                averageFPS = 1000 / ((totalTime / frameCount) / 1000000);
+                averageFPS = 1000 * frameCount / totalTime;
                 frameCount = 0;
                 totalTime = 0;
                 System.out.println("FPS : " + averageFPS);

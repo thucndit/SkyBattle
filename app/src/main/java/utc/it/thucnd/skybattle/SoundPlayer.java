@@ -58,7 +58,7 @@ public class SoundPlayer {
     }
 
     public void playPicSound() {
-        soundPool.play(picSound, 0.3f, 0.3f, 1, 0, 1.0f);
+        soundPool.play(picSound, 0.5f, 0.5f, 1, 0, 1.0f);
     }
 
     public void playLaserSound() {
