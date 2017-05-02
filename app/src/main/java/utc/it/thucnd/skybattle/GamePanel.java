@@ -97,7 +97,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         bossLevel = 1;
         addMaster = false;
         addExplosion = false;
-
         sound = new SoundPlayer(gameContext);
 
         //tính tỷ lệ màn hình với ảnh nguồn
@@ -382,7 +381,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             //bắt đầu thêm laser
             elapsed = (System.nanoTime() - laserStartTime) / 1000000;
             for (int i = 0; i < bossmaster.size(); i++) {
-                if (elapsed > 1500) {
+                if (elapsed > 1200) {
                     if (left) left = false;
                     else left = true;
                     laser.add(new Laser(BitmapFactory.decodeResource(getResources(), R.drawable.laser),
