@@ -8,7 +8,6 @@ import java.util.Random;
 
 
 public class Missile extends GameObject {
-    private int score;
     private int speed;
     private Random rand = new Random();
     private Animation animation = new Animation();
@@ -25,8 +24,7 @@ public class Missile extends GameObject {
         super.y = y;
         width = w;
         height = h;
-        score = s;
-        speed = 5 + (int) (rand.nextDouble() * score);
+        speed = 5 + (int) (rand.nextDouble() * s);
         // giới hạn tốc độ bay của tên lửa
         if (speed > 20) speed = 20;
         Bitmap[] image = new Bitmap[numFrames];
