@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,8 +16,11 @@ public class GameOver extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //tắt hiển thị title
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //set full màn hình
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.game_over);
-
         TextView tvScore = (TextView) findViewById(R.id.tv_score);
         TextView tvHighScore = (TextView) findViewById(R.id.tv_highscore);
         Button btnAgain = (Button) findViewById(R.id.btn_again);
