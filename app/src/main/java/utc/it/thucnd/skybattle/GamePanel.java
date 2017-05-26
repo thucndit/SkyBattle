@@ -196,7 +196,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public void addBullet() {
         //bắt đầu thêm đạn bắn
         elapsed = (System.nanoTime() - bulletStartTime) / 1000000;
-        if (elapsed > 180) {
+        if (elapsed > (185 - 5 * bossLevel)) {
             bullet.add(new Bullet(BitmapFactory.decodeResource(getResources(), R.drawable.bullet),
                     myplane.getX(), myplane.getY(), 25, 36, 15, 1));
             //reset timer
