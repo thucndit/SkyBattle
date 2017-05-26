@@ -106,6 +106,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         resetTimer();
         //khởi tạo các đối tượng trong game
         randmap = rand.nextInt(2);
+        bgmusic.setLooping(true);
         switch (randmap) {
             case 0:
                 background = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.game_map));
@@ -116,7 +117,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 bgmusic = MediaPlayer.create(gameContext, R.raw.finalbattle);
                 break;
         }
-        bgmusic.setLooping(true);
 
         myplane = new MyPlane(BitmapFactory.decodeResource(getResources(), R.drawable.myplane), 76, 70, 4);
         combustor = new Combustor(BitmapFactory.decodeResource(getResources(), R.drawable.combustor), 23, 40, 4);
