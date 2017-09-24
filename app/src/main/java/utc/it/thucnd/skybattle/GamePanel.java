@@ -26,7 +26,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public static final int HEIGHT = 768;
     public static float scaleX;
     public static float scaleY;
-    public static final int MOVESPEED = 5;
+    public static final int MOVESPEED = 7;
 
     private Context gameContext;
     private int randmap;
